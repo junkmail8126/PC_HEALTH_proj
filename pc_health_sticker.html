@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PC Health Assistant</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .sticker {
+      width: 220px;
+      background: #ffffff;
+      border: 0.5px solid rgba(0,0,0,0.15);
+      border-radius: 16px;
+      padding: 14px 16px 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      position: relative;
+      user-select: none;
+    }
+
+    .sticker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #1D9E75;
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .sticker-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: #666;
+      letter-spacing: 0.03em;
+    }
+
+    .minimize-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+      font-size: 16px;
+      padding: 0 2px;
+      line-height: 1;
+      opacity: 0.6;
+    }
+    .minimize-btn:hover { opacity: 1; }
+
+    .ram-arc-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .ram-label-top {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+
+    svg.arc-svg { overflow: visible; }
+
+    .ram-num {
+      font-size: 26px;
+      font-weight: 500;
+      text-align: center;
+      color: #111;
+      margin-top: -2px;
+      line-height: 1;
+    }
+
+    .ram-sub {
+      font-size: 11px;
+      color: #888;
+      text-align: center;
+      margin-top: 2px;
+      margin-bottom: 10px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .bar-label {
+      font-size: 10px;
+      color: #888;
+      width: 34px;
+      flex-shrink: 0;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 5px;
+      background: #eee;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 1.2s ease;
+    }
+
+    .bar-val {
+      font-size: 11px;
+      color: #888;
+      width: 28px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .alert-box {
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin-top: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      transition: background 0.5s;
+    }
+
+    .alert-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .alert-msg {
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 400;
+    }
+
+    .action-btn {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 7px 0;
+      border-radius: 10px;
+      border: 0.5px solid rgba(0,0,0,0.15);
+      background: #f5f5f5;
+      font-size: 12px;
+      font-weight: 500;
+      color: #111;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+    }
+    .action-btn:hover { background: #ebebeb; }
+
+    .snooze-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .snooze-btn {
+      flex: 1;
+      padding: 5px 0;
+      border-radius: 8px;
+      border: 0.5px solid rgba(0,0,0,0.12);
+      background: none;
+      font-size: 11px;
+      color: #888;
+      cursor: pointer;
+    }
+    .snooze-btn:hover { background: #f5f5f5; color: #111; }
+
+    .minimized-view {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+    }
+
+    .min-pct {
+      font-size: 15px;
+      font-weight: 500;
+      color: #111;
+    }
+
+    .min-label {
+      font-size: 11px;
+      color: #888;
+    }
+
+    .min-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+    .sticker.mini {
+      width: 160px;
+      padding: 0;
+      border-radius: 40px;
+    }
+    .sticker.mini .full-view { display: none; }
+    .sticker.mini .minimized-view { display: flex; }
+
+    .history-dots {
+      display: flex;
+      gap: 3px;
+      align-items: flex-end;
+      height: 24px;
+      margin-bottom: 6px;
+      padding: 0 2px;
+    }
+
+    .h-bar {
+      flex: 1;
+      border-radius: 2px 2px 0 0;
+      min-height: 3px;
+      transition: height 1s ease;
+      opacity: 0.55;
+    }
+
+    .last-check {
+      font-size: 10px;
+      color: #aaa;
+      text-align: right;
+      margin-top: 2px;
+    }
+
+    /* Draggable */
+    .sticker { cursor: grab; }
+    .sticker:active { cursor: grabbing; }
+  </style>
+</head>
+<body>
+
+<div class="sticker" id="sticker">
+
+  <div class="full-view">
+    <div class="sticker-header">
+      <div class="title-row">
+        <div class="pulse-dot" id="pulse-dot"></div>
+        <span class="sticker-title">PC Health</span>
+      </div>
+      <button class="minimize-btn" id="min-btn" title="Minimise to pill" aria-label="Minimise">
+        <i class="ti ti-minus" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="ram-arc-wrap">
+      <div class="ram-label-top">RAM usage</div>
+      <svg class="arc-svg" width="120" height="68" viewBox="0 0 120 68">
+        <path d="M10,64 A50,50 0 0,1 110,64" fill="none" stroke="#eee" stroke-width="10" stroke-linecap="round"/>
+        <path id="arc-fill" d="M10,64 A50,50 0 0,1 110,64" fill="none" stroke="#1D9E75" stroke-width="10"
+          stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="157"
+          style="transition: stroke-dashoffset 1.2s ease, stroke 0.8s ease;"/>
+      </svg>
+      <div class="ram-num" id="ram-pct">—%</div>
+      <div class="ram-sub" id="ram-gb">— of — GB used</div>
+    </div>
+
+    <div class="history-dots" id="history-bars" title="Last 12 checks"></div>
+
+    <div class="bar-row">
+      <span class="bar-label">Apps</span>
+      <div class="bar-track"><div class="bar-fill" id="bar-apps" style="width:0%; background:#5DCAA5;"></div></div>
+      <span class="bar-val" id="val-apps">—</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">System</span>
+      <div class="bar-track"><div class="bar-fill" id="bar-sys" style="width:0%; background:#7F77DD;"></div></div>
+      <span class="bar-val" id="val-sys">—</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Browser</span>
+      <div class="bar-track"><div class="bar-fill" id="bar-browser" style="width:0%; background:#378ADD;"></div></div>
+      <span class="bar-val" id="val-browser">—</span>
+    </div>
+
+    <div class="alert-box" id="alert-box" style="background:#e8f5f0;">
+      <i class="ti ti-info-circle alert-icon" id="alert-icon" style="color:#0F6E56;"></i>
+      <span class="alert-msg" id="alert-msg" style="color:#0F6E56;">Checking your PC…</span>
+    </div>
+
+    <button class="action-btn" id="action-btn" style="display:none;" onclick="handleAction()"></button>
+
+    <div class="snooze-row">
+      <button class="snooze-btn" onclick="snooze(15)">Snooze 15m</button>
+      <button class="snooze-btn" onclick="snooze(60)">Snooze 1h</button>
+    </div>
+
+    <div class="last-check" id="last-check">Checking now…</div>
+  </div>
+
+  <div class="minimized-view">
+    <div class="min-dot" id="min-dot" style="background:#1D9E75;"></div>
+    <div>
+      <div class="min-pct" id="min-pct">—%</div>
+      <div class="min-label">RAM · tap to expand</div>
+    </div>
+    <button class="minimize-btn" style="margin-left:auto;" onclick="expand()" aria-label="Expand">
+      <i class="ti ti-chevron-down" aria-hidden="true"></i>
+    </button>
+  </div>
+
+</div>
+
+<script>
+  /* ── Config ── */
+  const TOTAL_RAM = 16; // Change to match your actual RAM (GB)
+  const UPDATE_INTERVAL_MS = 3500;
+  const ARC_LENGTH = 157;
+
+  /* ── State ── */
+  let history = [];
+  let snoozedUntil = 0;
+  let minimised = false;
+  let currentPct = 38;
+  let trend = 1;
+  let trendTicks = 0;
+
+  /* ── Simulated RAM (replace with real OS data when using Electron/Tauri) ── */
+  function nextRAM() {
+    trendTicks++;
+    if (trendTicks > rand(4, 10)) { trend = -trend; trendTicks = 0; }
+    const delta = rand(0.3, 2.5) * trend;
+    currentPct = Math.max(20, Math.min(97, currentPct + delta));
+    return currentPct;
+
+    /*
+      ── REAL DATA (Electron example) ──
+      const os = require('os');
+      const total = os.totalmem();
+      const free  = os.freemem();
+      return ((total - free) / total) * 100;
+    */
+  }
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  /* ── Status tiers ── */
+  function getStatus(pct) {
+    if (pct < 50) return 'good';
+    if (pct < 70) return 'ok';
+    if (pct < 85) return 'warn';
+    return 'crit';
+  }
+
+  const statusConfig = {
+    good: {
+      dot:  '#1D9E75', arc: '#1D9E75',
+      alertBg: '#e8f5f0', alertColor: '#0F6E56',
+      icon: 'ti-circle-check',
+      msgs: [
+        "All good! Your PC is breathing easy.",
+        "RAM is healthy — carry on!",
+        "Plenty of memory to spare."
+      ],
+      action: null
+    },
+    ok: {
+      dot: '#EF9F27', arc: '#EF9F27',
+      alertBg: '#fef8ec', alertColor: '#854F0B',
+      icon: 'ti-info-circle',
+      msgs: [
+        "RAM is filling up a bit. Worth keeping an eye on.",
+        "Memory is moderate. Consider closing unused apps.",
+        "Getting a little busy in here — no panic yet."
+      ],
+      action: null
+    },
+    warn: {
+      dot: '#D85A30', arc: '#D85A30',
+      alertBg: '#faece7', alertColor: '#993C1D',
+      icon: 'ti-alert-triangle',
+      msgs: [
+        "RAM is running high. Try closing some browser tabs.",
+        "Memory is stretched. Close apps you're not using.",
+        "Heads up — your PC is working hard. Free up some RAM."
+      ],
+      action: 'Tell me which tabs to close'
+    },
+    crit: {
+      dot: '#E24B4A', arc: '#E24B4A',
+      alertBg: '#fcebeb', alertColor: '#A32D2D',
+      icon: 'ti-alert-octagon',
+      msgs: [
+        "RAM is almost full! Your PC may slow down or crash soon.",
+        "Critical: too many things running. Save your work & restart.",
+        "Very high RAM usage — close everything you don't need now."
+      ],
+      action: 'What should I do right now?'
+    }
+  };
+
+  function pickMsg(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  /* ── Main update loop ── */
+  function update() {
+    const pct = nextRAM();
+    const rounded = Math.round(pct);
+    const status = getStatus(pct);
+    const cfg = statusConfig[status];
+
+    history.push(rounded);
+    if (history.length > 12) history.shift();
+
+    /* Arc meter */
+    const arcEl = document.getElementById('arc-fill');
+    arcEl.style.strokeDashoffset = ARC_LENGTH - (pct / 100) * ARC_LENGTH;
+    arcEl.style.stroke = cfg.arc;
+
+    /* Numbers */
+    document.getElementById('ram-pct').textContent = rounded + '%';
+    document.getElementById('ram-gb').textContent =
+      (pct / 100 * TOTAL_RAM).toFixed(1) + ' of ' + TOTAL_RAM + ' GB used';
+
+    /* Breakdown bars */
+    const appsPct = pct * rand(0.35, 0.5);
+    const sysPct  = pct * rand(0.25, 0.35);
+    const browPct = Math.max(0, pct - appsPct - sysPct);
+
+    setBar('apps',    appsPct);
+    setBar('sys',     sysPct);
+    setBar('browser', browPct);
+
+    /* Pulse dot */
+    document.getElementById('pulse-dot').style.background = cfg.dot;
+
+    /* Snooze guard */
+    if (Date.now() < snoozedUntil) {
+      document.getElementById('last-check').textContent =
+        'Snoozed · ' + now();
+      return;
+    }
+
+    /* Alert */
+    const alertBox = document.getElementById('alert-box');
+    alertBox.style.background = cfg.alertBg;
+    const alertIcon = document.getElementById('alert-icon');
+    alertIcon.className = 'ti ' + cfg.icon + ' alert-icon';
+    alertIcon.style.color = cfg.alertColor;
+    const alertMsg = document.getElementById('alert-msg');
+    alertMsg.style.color = cfg.alertColor;
+    alertMsg.textContent = pickMsg(cfg.msgs);
+
+    /* Action button */
+    const btn = document.getElementById('action-btn');
+    if (cfg.action) {
+      btn.style.display = 'block';
+      btn.textContent = cfg.action;
+    } else {
+      btn.style.display = 'none';
+    }
+
+    document.getElementById('last-check').textContent = 'Updated ' + now();
+
+    renderHistory();
+
+    /* Mini pill */
+    if (minimised) {
+      document.getElementById('min-pct').textContent = rounded + '%';
+      document.getElementById('min-dot').style.background = cfg.dot;
+    }
+
+    /* Beep alert on critical */
+    if (status === 'crit') beep();
+  }
+
+  function setBar(id, pct) {
+    document.getElementById('bar-' + id).style.width = pct + '%';
+    document.getElementById('val-' + id).textContent = Math.round(pct) + '%';
+  }
+
+  function renderHistory() {
+    const container = document.getElementById('history-bars');
+    container.innerHTML = '';
+    history.forEach(v => {
+      const bar = document.createElement('div');
+      bar.className = 'h-bar';
+      bar.style.height = (Math.round((v / 100) * 22) + 2) + 'px';
+      const colors = { good:'#1D9E75', ok:'#EF9F27', warn:'#D85A30', crit:'#E24B4A' };
+      bar.style.background = colors[getStatus(v)];
+      container.appendChild(bar);
+    });
+  }
+
+  /* ── Beep (Web Audio) ── */
+  function beep() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.4);
+    } catch(e) {}
+  }
+
+  /* ── Controls ── */
+  function handleAction() {
+    alert(document.getElementById('action-btn').textContent +
+      '\n\nTip: Open Task Manager (Ctrl+Shift+Esc on Windows) or Activity Monitor (Mac) and quit the top RAM-using apps.');
+  }
+
+  function snooze(mins) {
+    snoozedUntil = Date.now() + mins * 60 * 1000;
+    document.getElementById('alert-msg').textContent =
+      'Snoozed for ' + (mins >= 60 ? '1 hour' : mins + ' min') + '. I\'ll check back soon.';
+    document.getElementById('action-btn').style.display = 'none';
+    document.getElementById('last-check').textContent = 'Snoozed · ' + now();
+  }
+
+  function expand() {
+    minimised = false;
+    document.getElementById('sticker').classList.remove('mini');
+    document.getElementById('min-btn').innerHTML = '<i class="ti ti-minus" aria-hidden="true"></i>';
+    document.getElementById('min-btn').onclick = minimise;
+  }
+
+  function minimise() {
+    minimised = true;
+    document.getElementById('sticker').classList.add('mini');
+    document.getElementById('min-pct').textContent = Math.round(currentPct) + '%';
+    const colors = { good:'#1D9E75', ok:'#EF9F27', warn:'#D85A30', crit:'#E24B4A' };
+    document.getElementById('min-dot').style.background = colors[getStatus(currentPct)];
+  }
+
+  document.getElementById('min-btn').onclick = minimise;
+
+  function now() {
+    return new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  }
+
+  /* ── Drag to move sticker ── */
+  (function makeDraggable() {
+    const el = document.getElementById('sticker');
+    let ox = 0, oy = 0, sx = 0, sy = 0;
+    el.addEventListener('mousedown', e => {
+      if (e.target.closest('button')) return;
+      sx = e.clientX; sy = e.clientY;
+      const rect = el.getBoundingClientRect();
+      ox = sx - rect.left; oy = sy - rect.top;
+      el.style.position = 'fixed';
+      el.style.right = 'auto';
+      el.style.left = rect.left + 'px';
+      el.style.top  = rect.top  + 'px';
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup',   onUp);
+    });
+    function onMove(e) {
+      el.style.left = (e.clientX - ox) + 'px';
+      el.style.top  = (e.clientY - oy) + 'px';
+    }
+    function onUp() {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup',   onUp);
+    }
+  })();
+
+  /* ── Start ── */
+  update();
+  setInterval(update, UPDATE_INTERVAL_MS);
+</script>
+</body>
+</html>
