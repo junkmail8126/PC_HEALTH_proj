@@ -17,21 +17,24 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
+    /* Sticker Widget Container (width increased slightly from 220px to 260px) */
     .sticker {
-      width: 220px;
+      width: 260px;
       background: #ffffff;
       border: 0.5px solid rgba(0,0,0,0.15);
       border-radius: 16px;
       padding: 14px 16px 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
       position: relative;
       user-select: none;
+      transition: width 0.3s ease, box-shadow 0.3s ease;
+      cursor: grab;
     }
+    .sticker:active { cursor: grabbing; }
 
     .sticker-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       margin-bottom: 12px;
     }
 
@@ -57,9 +60,22 @@
 
     .sticker-title {
       font-size: 12px;
-      font-weight: 500;
-      color: #666;
+      font-weight: 600;
+      color: #555;
       letter-spacing: 0.03em;
+    }
+
+    /* Modern Pill Badge for the Health Score in the Header */
+    .health-score-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: #e8f5f0;
+      color: #0F6E56;
+      transition: background 0.3s, color 0.3s;
+      margin-left: auto;
+      margin-right: 8px;
     }
 
     .minimize-btn {
@@ -78,7 +94,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .ram-label-top {
@@ -91,7 +107,7 @@
 
     .ram-num {
       font-size: 26px;
-      font-weight: 500;
+      font-weight: 600;
       text-align: center;
       color: #111;
       margin-top: -2px;
@@ -103,53 +119,97 @@
       color: #888;
       text-align: center;
       margin-top: 2px;
+    }
+
+    /* System Metrics Progress Bars Card */
+    .metrics-section {
+      background: #fdfdfd;
+      border: 0.5px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
+      padding: 10px 12px;
       margin-bottom: 10px;
     }
 
-    .bar-row {
+    .metric-row {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .metric-row:last-child {
+      margin-bottom: 0;
     }
 
-    .bar-label {
-      font-size: 10px;
-      color: #888;
-      width: 34px;
+    .metric-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: #555;
+      width: 48px;
       flex-shrink: 0;
     }
 
-    .bar-track {
+    .metric-track {
       flex: 1;
-      height: 5px;
-      background: #eee;
+      height: 6px;
+      background: #f0f0f0;
       border-radius: 99px;
       overflow: hidden;
     }
 
-    .bar-fill {
+    .metric-fill {
       height: 100%;
       border-radius: 99px;
-      transition: width 1.2s ease;
+      width: 0%;
+      background: #1D9E75;
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease;
     }
 
-    .bar-val {
+    .metric-val {
       font-size: 11px;
-      color: #888;
-      width: 28px;
+      font-weight: 500;
+      color: #333;
+      width: 55px;
       text-align: right;
       flex-shrink: 0;
     }
 
+    /* Top Resource Consumer Micro-Card */
+    .consumer-card {
+      background: #fafafa;
+      border: 0.5px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .consumer-title {
+      font-size: 9px;
+      font-weight: 700;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .consumer-detail {
+      font-size: 11px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    /* Highly Prominent Smart Recommendation Card */
     .alert-box {
-      border-radius: 10px;
-      padding: 8px 10px;
-      margin-top: 10px;
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      transition: background 0.5s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      border: 0.5px solid rgba(0,0,0,0.06);
+      transition: background 0.5s ease;
     }
 
     .alert-icon {
@@ -159,27 +219,48 @@
     }
 
     .alert-msg {
-      font-size: 12px;
+      font-size: 11.5px;
       line-height: 1.4;
-      font-weight: 400;
+      font-weight: 500;
     }
 
+    /* Secondary Action Diagnostic Button */
     .action-btn {
       display: block;
       width: 100%;
-      margin-top: 10px;
+      margin-bottom: 8px;
       padding: 7px 0;
       border-radius: 10px;
       border: 0.5px solid rgba(0,0,0,0.15);
       background: #f5f5f5;
-      font-size: 12px;
-      font-weight: 500;
+      font-size: 11px;
+      font-weight: 600;
       color: #111;
       cursor: pointer;
       text-align: center;
       transition: background 0.15s;
     }
     .action-btn:hover { background: #ebebeb; }
+
+    /* Diagnostic Overlay Trigger Link */
+    .diagnostic-btn {
+      display: block;
+      width: 100%;
+      padding: 8px 0;
+      border-radius: 10px;
+      border: 0.5px solid rgba(79, 70, 229, 0.15);
+      background: #f5f3ff;
+      font-size: 11px;
+      font-weight: 600;
+      color: #4f46e5;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .diagnostic-btn:hover {
+      background: #ede9fe;
+      border-color: #4f46e5;
+    }
 
     .snooze-row {
       display: flex;
@@ -199,6 +280,15 @@
     }
     .snooze-btn:hover { background: #f5f5f5; color: #111; }
 
+    .last-check {
+      font-size: 10px;
+      color: #aaa;
+      text-align: center;
+      margin-top: 8px;
+      cursor: help;
+    }
+
+    /* Minimized Pill View */
     .minimized-view {
       display: none;
       align-items: center;
@@ -208,7 +298,7 @@
 
     .min-pct {
       font-size: 15px;
-      font-weight: 500;
+      font-weight: 600;
       color: #111;
     }
 
@@ -227,50 +317,112 @@
     .sticker.mini .full-view { display: none; }
     .sticker.mini .minimized-view { display: flex; }
 
-    .history-dots {
+    /* AI Diagnostics Modal Window overlay styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(3px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active {
       display: flex;
-      gap: 3px;
-      align-items: flex-end;
-      height: 24px;
-      margin-bottom: 6px;
-      padding: 0 2px;
     }
-
-    .h-bar {
-      flex: 1;
-      border-radius: 2px 2px 0 0;
-      min-height: 3px;
-      transition: height 1s ease;
-      opacity: 0.55;
+    .modal-content {
+      background: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      padding: 16px;
+      position: relative;
+      animation: slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    .last-check {
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      border-bottom: 0.5px solid #eee;
+      padding-bottom: 8px;
+    }
+    .modal-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #888;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-close:hover {
+      color: #111;
+    }
+    .modal-body {
+      font-size: 11px;
+      color: #555;
+      line-height: 1.5;
+    }
+    .modal-intro {
+      margin-bottom: 8px;
+    }
+    .diagnostic-payload {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 0.5px solid #e2e8f0;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    .diagnostic-payload pre {
+      font-family: 'Consolas', 'Courier New', monospace;
       font-size: 10px;
-      color: #aaa;
-      text-align: right;
-      margin-top: 2px;
+      color: #334155;
+      white-space: pre-wrap;
+      margin: 0;
     }
-
-    /* Draggable */
-    .sticker { cursor: grab; }
-    .sticker:active { cursor: grabbing; }
+    .modal-tip {
+      font-size: 10px;
+      color: #64748b;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
 
 <div class="sticker" id="sticker">
 
+  <!-- Full Expanded View of widget -->
   <div class="full-view">
     <div class="sticker-header">
       <div class="title-row">
         <div class="pulse-dot" id="pulse-dot"></div>
         <span class="sticker-title">PC Health</span>
       </div>
+      <!-- Score Pill in Header -->
+      <div class="health-score-badge" id="health-score-badge">—/100</div>
       <button class="minimize-btn" id="min-btn" title="Minimise to pill" aria-label="Minimise">
         <i class="ti ti-minus" aria-hidden="true"></i>
       </button>
     </div>
 
+    <!-- Main Gauge representing Memory -->
     <div class="ram-arc-wrap">
       <div class="ram-label-top">RAM usage</div>
       <svg class="arc-svg" width="120" height="68" viewBox="0 0 120 68">
@@ -283,39 +435,55 @@
       <div class="ram-sub" id="ram-gb">— of — GB used</div>
     </div>
 
-    <div class="history-dots" id="history-bars" title="Last 12 checks"></div>
+    <!-- System Metrics Panel (Progress bars for CPU, Storage, Temperature) -->
+    <div class="metrics-section">
+      <div class="metric-row">
+        <span class="metric-label">CPU</span>
+        <div class="metric-track"><div class="metric-fill" id="metric-cpu"></div></div>
+        <span class="metric-val" id="val-cpu">—%</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">Storage</span>
+        <div class="metric-track"><div class="metric-fill" id="metric-storage"></div></div>
+        <span class="metric-val" id="val-storage">—%</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">Temp</span>
+        <div class="metric-track"><div class="metric-fill" id="metric-temp"></div></div>
+        <span class="metric-val" id="val-temp">—°C</span>
+      </div>
+    </div>
 
-    <div class="bar-row">
-      <span class="bar-label">Apps</span>
-      <div class="bar-track"><div class="bar-fill" id="bar-apps" style="width:0%; background:#5DCAA5;"></div></div>
-      <span class="bar-val" id="val-apps">—</span>
-    </div>
-    <div class="bar-row">
-      <span class="bar-label">System</span>
-      <div class="bar-track"><div class="bar-fill" id="bar-sys" style="width:0%; background:#7F77DD;"></div></div>
-      <span class="bar-val" id="val-sys">—</span>
-    </div>
-    <div class="bar-row">
-      <span class="bar-label">Browser</span>
-      <div class="bar-track"><div class="bar-fill" id="bar-browser" style="width:0%; background:#378ADD;"></div></div>
-      <span class="bar-val" id="val-browser">—</span>
+    <!-- Top Resource Consumer Micro-Card -->
+    <div class="consumer-card">
+      <div class="consumer-title">Top Resource Consumer</div>
+      <div class="consumer-detail" id="top-consumer">—</div>
     </div>
 
+    <!-- Smart Recommendations Card -->
     <div class="alert-box" id="alert-box" style="background:#e8f5f0;">
       <i class="ti ti-info-circle alert-icon" id="alert-icon" style="color:#0F6E56;"></i>
       <span class="alert-msg" id="alert-msg" style="color:#0F6E56;">Checking your PC…</span>
     </div>
 
+    <!-- Contextual Suggestion Action Button -->
     <button class="action-btn" id="action-btn" style="display:none;" onclick="handleAction()"></button>
+
+    <!-- AI Behavior Diagnostic Trigger Button -->
+    <button class="diagnostic-btn" id="diagnostic-btn" onclick="openDiagnosticModal()">
+      Why is my PC behaving this way?
+    </button>
 
     <div class="snooze-row">
       <button class="snooze-btn" onclick="snooze(15)">Snooze 15m</button>
       <button class="snooze-btn" onclick="snooze(60)">Snooze 1h</button>
     </div>
 
-    <div class="last-check" id="last-check">Checking now…</div>
+    <!-- Footer containing overall health score & timestamp; uptime in HTML tooltip -->
+    <div class="last-check" id="last-check" title="Uptime: —">Health Score: — · Updated —</div>
   </div>
 
+  <!-- Minimized View Pill -->
   <div class="minimized-view">
     <div class="min-dot" id="min-dot" style="background:#1D9E75;"></div>
     <div>
@@ -329,9 +497,25 @@
 
 </div>
 
+<!-- AI Diagnostic Modal Overlay -->
+<div class="modal-overlay" id="diagnostic-modal" onclick="closeDiagnosticModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">AI Performance Diagnosis</span>
+      <button class="modal-close" onclick="closeDiagnosticModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-intro">Below is the real-time diagnostic payload compiled for the AI analysis model:</p>
+      <div class="diagnostic-payload">
+        <pre id="diagnostic-json"></pre>
+      </div>
+      <p class="modal-tip"><em>zraddha you should integrate any ai model (gemini prefer)so it can actually diagnose and yk give a solution or remedy</em></p>
+    </div>
+  </div>
+</div>
+
 <script>
   /* ── Config ── */
-  const TOTAL_RAM = 16; // Change to match your actual RAM (GB)
   const UPDATE_INTERVAL_MS = 3500;
   const ARC_LENGTH = 157;
 
@@ -339,34 +523,14 @@
   let history = [];
   let snoozedUntil = 0;
   let minimised = false;
-  let currentPct = 38;
-  let trend = 1;
-  let trendTicks = 0;
+  let currentPct = 38; 
+  let latestStats = {}; // Cache to hold latest backend statistics for diagnostics
 
-  /* ── Simulated RAM (replace with real OS data when using Electron/Tauri) ── */
-  function nextRAM() {
-    trendTicks++;
-    if (trendTicks > rand(4, 10)) { trend = -trend; trendTicks = 0; }
-    const delta = rand(0.3, 2.5) * trend;
-    currentPct = Math.max(20, Math.min(97, currentPct + delta));
-    return currentPct;
-
-    /*
-      ── REAL DATA (Electron example) ──
-      const os = require('os');
-      const total = os.totalmem();
-      const free  = os.freemem();
-      return ((total - free) / total) * 100;
-    */
-  }
-
-  function rand(a, b) { return a + Math.random() * (b - a); }
-
-  /* ── Status tiers ── */
-  function getStatus(pct) {
-    if (pct < 50) return 'good';
-    if (pct < 70) return 'ok';
-    if (pct < 85) return 'warn';
+  /* ── Status Tiers based on Overall Health Score ── */
+  function getScoreStatus(score) {
+    if (score >= 80) return 'good';
+    if (score >= 65) return 'ok';
+    if (score >= 50) return 'warn';
     return 'crit';
   }
 
@@ -375,138 +539,224 @@
       dot:  '#1D9E75', arc: '#1D9E75',
       alertBg: '#e8f5f0', alertColor: '#0F6E56',
       icon: 'ti-circle-check',
-      msgs: [
-        "All good! Your PC is breathing easy.",
-        "RAM is healthy — carry on!",
-        "Plenty of memory to spare."
-      ],
       action: null
     },
     ok: {
       dot: '#EF9F27', arc: '#EF9F27',
       alertBg: '#fef8ec', alertColor: '#854F0B',
       icon: 'ti-info-circle',
-      msgs: [
-        "RAM is filling up a bit. Worth keeping an eye on.",
-        "Memory is moderate. Consider closing unused apps.",
-        "Getting a little busy in here — no panic yet."
-      ],
       action: null
     },
     warn: {
       dot: '#D85A30', arc: '#D85A30',
       alertBg: '#faece7', alertColor: '#993C1D',
       icon: 'ti-alert-triangle',
-      msgs: [
-        "RAM is running high. Try closing some browser tabs.",
-        "Memory is stretched. Close apps you're not using.",
-        "Heads up — your PC is working hard. Free up some RAM."
-      ],
-      action: 'Tell me which tabs to close'
+      action: 'Tell me which applications to close'
     },
     crit: {
       dot: '#E24B4A', arc: '#E24B4A',
       alertBg: '#fcebeb', alertColor: '#A32D2D',
       icon: 'ti-alert-octagon',
-      msgs: [
-        "RAM is almost full! Your PC may slow down or crash soon.",
-        "Critical: too many things running. Save your work & restart.",
-        "Very high RAM usage — close everything you don't need now."
-      ],
       action: 'What should I do right now?'
     }
   };
 
-  function pickMsg(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-  /* ── Main update loop ── */
-  function update() {
-    const pct = nextRAM();
-    const rounded = Math.round(pct);
-    const status = getStatus(pct);
-    const cfg = statusConfig[status];
-
-    history.push(rounded);
-    if (history.length > 12) history.shift();
-
-    /* Arc meter */
-    const arcEl = document.getElementById('arc-fill');
-    arcEl.style.strokeDashoffset = ARC_LENGTH - (pct / 100) * ARC_LENGTH;
-    arcEl.style.stroke = cfg.arc;
-
-    /* Numbers */
-    document.getElementById('ram-pct').textContent = rounded + '%';
-    document.getElementById('ram-gb').textContent =
-      (pct / 100 * TOTAL_RAM).toFixed(1) + ' of ' + TOTAL_RAM + ' GB used';
-
-    /* Breakdown bars */
-    const appsPct = pct * rand(0.35, 0.5);
-    const sysPct  = pct * rand(0.25, 0.35);
-    const browPct = Math.max(0, pct - appsPct - sysPct);
-
-    setBar('apps',    appsPct);
-    setBar('sys',     sysPct);
-    setBar('browser', browPct);
-
-    /* Pulse dot */
-    document.getElementById('pulse-dot').style.background = cfg.dot;
-
-    /* Snooze guard */
-    if (Date.now() < snoozedUntil) {
-      document.getElementById('last-check').textContent =
-        'Snoozed · ' + now();
-      return;
+  /* ── Color calculation for individual system metrics progress bars ── */
+  function getMetricColor(value, type) {
+    if (type === 'temp') {
+      if (value < 60) return '#1D9E75'; // Healthy green
+      if (value < 80) return '#EF9F27'; // Warning orange
+      return '#E24B4A'; // Critical red
+    } else if (type === 'storage') {
+      if (value < 75) return '#1D9E75';
+      if (value < 90) return '#EF9F27';
+      return '#E24B4A';
+    } else { // CPU, RAM
+      if (value < 60) return '#1D9E75';
+      if (value < 85) return '#EF9F27';
+      return '#E24B4A';
     }
-
-    /* Alert */
-    const alertBox = document.getElementById('alert-box');
-    alertBox.style.background = cfg.alertBg;
-    const alertIcon = document.getElementById('alert-icon');
-    alertIcon.className = 'ti ' + cfg.icon + ' alert-icon';
-    alertIcon.style.color = cfg.alertColor;
-    const alertMsg = document.getElementById('alert-msg');
-    alertMsg.style.color = cfg.alertColor;
-    alertMsg.textContent = pickMsg(cfg.msgs);
-
-    /* Action button */
-    const btn = document.getElementById('action-btn');
-    if (cfg.action) {
-      btn.style.display = 'block';
-      btn.textContent = cfg.action;
-    } else {
-      btn.style.display = 'none';
-    }
-
-    document.getElementById('last-check').textContent = 'Updated ' + now();
-
-    renderHistory();
-
-    /* Mini pill */
-    if (minimised) {
-      document.getElementById('min-pct').textContent = rounded + '%';
-      document.getElementById('min-dot').style.background = cfg.dot;
-    }
-
-    /* Beep alert on critical */
-    if (status === 'crit') beep();
   }
 
-  function setBar(id, pct) {
-    document.getElementById('bar-' + id).style.width = pct + '%';
-    document.getElementById('val-' + id).textContent = Math.round(pct) + '%';
+  /* Hybrid Recommendation Engine (can also be replaced w AI model) */
+  function getSmartRecommendation(ram, cpu, disk, temp) {
+    if (temp > 80) {
+      return {
+        status: 'crit',
+        msg: "System temperature is high. Check ventilation and cooling."
+      };
+    }
+    if (ram > 85) {
+      return {
+        status: 'crit',
+        msg: "Several applications are consuming memory. Closing unused apps may improve responsiveness."
+      };
+    }
+    if (disk > 90) {
+      return {
+        status: 'crit',
+        msg: "Storage is nearly full. Consider removing unused files."
+      };
+    }
+    if (cpu > 85) {
+      return {
+        status: 'crit',
+        msg: "High CPU load. Your PC is working hard."
+      };
+    }
+    if (temp > 70) {
+      return {
+        status: 'warn',
+        msg: "Ventilation check: Temperature is warm."
+      };
+    }
+    if (ram > 70) {
+      return {
+        status: 'warn',
+        msg: "Memory usage is high. Close background apps."
+      };
+    }
+    if (disk > 80) {
+      return {
+        status: 'warn',
+        msg: "Disk space is running low. Free up some space."
+      };
+    }
+    if (cpu > 70) {
+      return {
+        status: 'warn',
+        msg: "CPU usage is elevated. Close heavy processes."
+      };
+    }
+    return {
+      status: 'good',
+      msg: "Your PC is running smoothly."
+    };
   }
 
-  function renderHistory() {
-    const container = document.getElementById('history-bars');
-    container.innerHTML = '';
-    history.forEach(v => {
-      const bar = document.createElement('div');
-      bar.className = 'h-bar';
-      bar.style.height = (Math.round((v / 100) * 22) + 2) + 'px';
-      const colors = { good:'#1D9E75', ok:'#EF9F27', warn:'#D85A30', crit:'#E24B4A' };
-      bar.style.background = colors[getStatus(v)];
-      container.appendChild(bar);
-    });
+  /* ── Main update loop (Queries local Python API and updates HTML interface) ── */
+  async function update() {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/stats');
+      if (!response.ok) {
+        throw new Error('Backend responded with error status: ' + response.status);
+      }
+      
+      const data = await response.json();
+      latestStats = data; // Cache metrics for diagnostic button
+      
+      currentPct = data.ram_percent;
+      const rounded = Math.round(currentPct);
+      const status = getScoreStatus(data.health_score);
+      const cfg = statusConfig[status];
+
+      /* 1. Update Arc Meter representing RAM */
+      const arcEl = document.getElementById('arc-fill');
+      arcEl.style.strokeDashoffset = ARC_LENGTH - (currentPct / 100) * ARC_LENGTH;
+      arcEl.style.stroke = cfg.arc;
+
+      /* 2. Update memory usage numbers */
+      document.getElementById('ram-pct').textContent = rounded + '%';
+      document.getElementById('ram-gb').textContent =
+        data.ram_used_gb.toFixed(1) + ' of ' + data.ram_total_gb + ' GB used';
+
+      /* 3. Update Progress Bars for CPU, Storage, and Temperature */
+      setProgressBar('cpu', data.cpu_percent, 'cpu');
+      setProgressBar('storage', data.disk_percent, 'storage');
+      setProgressBar('temp', data.temperature, 'temp');
+
+      /* 4. Update Top Resource Consumer Card */
+      document.getElementById('top-consumer').textContent = data.top_process || 'N/A';
+
+      /* 5. Update Health Score Badge in Header */
+      const scoreBadge = document.getElementById('health-score-badge');
+      scoreBadge.textContent = data.health_score + '/100';
+      scoreBadge.style.background = cfg.alertBg;
+      scoreBadge.style.color = cfg.alertColor;
+
+      /* 6. Pulse Indicator Dot */
+      document.getElementById('pulse-dot').style.background = cfg.dot;
+
+      /* 7. Snooze check guard */
+      if (Date.now() < snoozedUntil) {
+        document.getElementById('last-check').textContent =
+          'Snoozed · ' + now();
+        return;
+      }
+
+      /* 8. Smart Recommendations Engine */
+      const rec = getSmartRecommendation(data.ram_percent, data.cpu_percent, data.disk_percent, data.temperature);
+      const recCfg = statusConfig[rec.status === 'crit' ? 'crit' : (rec.status === 'warn' ? 'warn' : 'good')];
+      
+      const alertBox = document.getElementById('alert-box');
+      alertBox.style.background = recCfg.alertBg;
+      
+      const alertIcon = document.getElementById('alert-icon');
+      alertIcon.className = 'ti ' + recCfg.icon + ' alert-icon';
+      alertIcon.style.color = recCfg.alertColor;
+      
+      const alertMsg = document.getElementById('alert-msg');
+      alertMsg.style.color = recCfg.alertColor;
+      alertMsg.textContent = rec.msg;
+
+      /* 9. Contextual Action button */
+      const btn = document.getElementById('action-btn');
+      if (recCfg.action) {
+        btn.style.display = 'block';
+        btn.textContent = recCfg.action;
+      } else {
+        btn.style.display = 'none';
+      }
+
+      // Display health score & update timestamp in footer; uptime in hover tooltip
+      const footerEl = document.getElementById('last-check');
+      footerEl.textContent = `Health Score: ${data.health_score}/100 · Updated ${now()}`;
+      footerEl.title = `System Uptime: ${data.uptime_hours} hours`;
+
+      /* Mini pill layout updates */
+      if (minimised) {
+        document.getElementById('min-pct').textContent = rounded + '%';
+        document.getElementById('min-dot').style.background = cfg.dot;
+      }
+
+      /* Audio cue when reaching critical levels */
+      if (status === 'crit') beep();
+      
+    } catch (error) {
+      console.error('Error fetching PC health stats:', error);
+      
+      // Visual feedback when backend is offline
+      document.getElementById('alert-box').style.background = '#faece7';
+      
+      const alertIcon = document.getElementById('alert-icon');
+      alertIcon.className = 'ti ti-alert-triangle alert-icon';
+      alertIcon.style.color = '#993C1D';
+      
+      const alertMsg = document.getElementById('alert-msg');
+      alertMsg.style.color = '#993C1D';
+      alertMsg.textContent = 'Backend server offline. Please start app.py.';
+      
+      document.getElementById('last-check').textContent = 'Connection error · ' + now();
+    }
+  }
+
+  /* Helper to set progress bar values, widths and colors dynamically */
+  function setProgressBar(id, value, type) {
+    const fillEl = document.getElementById('metric-' + id);
+    const valEl = document.getElementById('val-' + id);
+    
+    if (fillEl && valEl) {
+      fillEl.style.width = value + '%';
+      fillEl.style.backgroundColor = getMetricColor(value, type);
+      
+      if (type === 'temp') {
+        valEl.textContent = value + '°C';
+      } else if (type === 'storage') {
+        valEl.textContent = value + '% Full';
+      } else {
+        valEl.textContent = value + '%';
+      }
+    }
   }
 
   /* ── Beep (Web Audio) ── */
@@ -529,7 +779,7 @@
   /* ── Controls ── */
   function handleAction() {
     alert(document.getElementById('action-btn').textContent +
-      '\n\nTip: Open Task Manager (Ctrl+Shift+Esc on Windows) or Activity Monitor (Mac) and quit the top RAM-using apps.');
+      '\n\nTip: check w task manager, close unnecessary apps, and ensure your PC is well-ventilated.');
   }
 
   function snooze(mins) {
@@ -552,7 +802,8 @@
     document.getElementById('sticker').classList.add('mini');
     document.getElementById('min-pct').textContent = Math.round(currentPct) + '%';
     const colors = { good:'#1D9E75', ok:'#EF9F27', warn:'#D85A30', crit:'#E24B4A' };
-    document.getElementById('min-dot').style.background = colors[getStatus(currentPct)];
+    const scoreStatus = getScoreStatus(latestStats.health_score || 100);
+    document.getElementById('min-dot').style.background = colors[scoreStatus];
   }
 
   document.getElementById('min-btn').onclick = minimise;
@@ -561,12 +812,43 @@
     return new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
   }
 
+  /* ── Diagnostic Modal Handlers ── */
+  function openDiagnosticModal() {
+    const modal = document.getElementById('diagnostic-modal');
+    modal.classList.add('active');
+    
+    // Package parameters for placeholder/AI payload
+    const payload = {
+      ram_percent: latestStats.ram_percent || 0,
+      cpu_percent: latestStats.cpu_percent || 0,
+      disk_percent: latestStats.disk_percent || 0,
+      temperature: latestStats.temperature || 0,
+      uptime_hours: latestStats.uptime_hours || 0
+    };
+    
+    // Display payload in UI
+    document.getElementById('diagnostic-json').textContent = JSON.stringify(payload, null, 2);
+    
+    // Execute placeholder callback
+    triggerAIPerformanceDiagnosis(payload);
+  }
+  
+  function closeDiagnosticModal(event) {
+    const modal = document.getElementById('diagnostic-modal');
+    modal.classList.remove('active');
+  }
+
+  // Future AI/Gemini hook callback
+  function triggerAIPerformanceDiagnosis(payload) {
+    console.log("AI Diagnostic Callback Triggered. Payload payload:", payload);
+  }
+
   /* ── Drag to move sticker ── */
   (function makeDraggable() {
     const el = document.getElementById('sticker');
     let ox = 0, oy = 0, sx = 0, sy = 0;
     el.addEventListener('mousedown', e => {
-      if (e.target.closest('button')) return;
+      if (e.target.closest('button') || e.target.closest('.modal-content')) return;
       sx = e.clientX; sy = e.clientY;
       const rect = el.getBoundingClientRect();
       ox = sx - rect.left; oy = sy - rect.top;
